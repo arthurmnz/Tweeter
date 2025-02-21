@@ -16,6 +16,17 @@ typedef struct Post{
     struct Post *next;
 }post;
 
+typedef struct Topic {
+    char name[50];
+    unsigned posts_count;
+} topic;
+
+typedef struct TrendingTopics {
+    topic *topics;
+    unsigned size;
+    unsigned max_topics;
+} trending_topics;
+
 user *current_user = NULL;
 post *start_post = NULL;
 post *end_post = NULL;
