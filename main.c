@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 typedef struct User{
     int id; 
     char user_name[20];
@@ -10,6 +9,15 @@ typedef struct User{
 }user;
 
 user *current_user = NULL;
+
+int str_is_valid(char *str){
+    for (int i = 0; str[i] != '\0'; i++){
+        if(str[i] == ' '){
+            return 0;
+        }
+    }
+    return 1;
+}
 
 int get_last_id(){
     FILE *f = fopen("users.txt", "r");
@@ -48,18 +56,31 @@ void sing_up(){
         printf("Memory allocation failed\n");
         return;
     }    
+    do{
+        printf("Username não pode conter espaços\n");
+        printf("Enter username: ");
+        fgets(buffer_name, 50, stdin);
+        strcpy(u->user_name, buffer_name);
+        u->user_name[strcspn(buffer_name, "\n")] = 0;
+        __fpurge(stdin);
+        if (!str_is_valid(u->user_name))
+            printf("Username Inválido!!\n");
+    } while (!str_is_valid(u->user_name));
 
-    printf("Enter user name: ");
-    scanf("%s", buffer_name);
-    strcpy(u->user_name, buffer_name);
-    __fpurge(stdin);
-
-    printf("Enter password: ");
-    scanf("%s", buffer_password);
-    strcpy(u->password, buffer_password);
-    __fpurge(stdin);
-
+    
+    do{
+        printf("Password não pode conter espaços\n");
+        printf("Enter password: ");
+        fgets(buffer_password, 50, stdin);
+        strcpy(u->password, buffer_password);
+        u->password[strcspn(buffer_password, "\n")] = 0;
+        __fpurge(stdin);
+        if(!str_is_valid(u->password))
+            printf("Password Inválida!!\n");
+    } while (!str_is_valid(u->password));
+    
     add_user(u);
+    free(u);
 }
 
 void sing_in(){
@@ -72,14 +93,16 @@ void sing_in(){
     }    
 
     printf("Enter user name: ");
-    scanf("%s", buffer_name);
+    fgets(buffer_name, 50, stdin);
     strcpy(u->user_name, buffer_name);
-
+    u->user_name[strcspn(buffer_name, "\n")] = 0;
+    __fpurge(stdin);
 
     printf("Enter password: ");
-    scanf("%s", buffer_password);
+    fgets(buffer_password, 50, stdin);
     strcpy(u->password, buffer_password);
-
+    u->password[strcspn(buffer_password, "\n")] = 0;
+    __fpurge(stdin);
 
     FILE *f = fopen("users.txt", "r");
     if(f == NULL){
@@ -94,14 +117,16 @@ void sing_in(){
         char *password = strtok(NULL, "\n");
  
         if(strcmp(u->user_name, user_name) == 0 && strcmp(u->password, password) == 0){
+            u->id = id;
             current_user = u;
-            printf("User found\n");
             fclose(f);
+            free(u);
             return;
         }
     }
     printf("User not found\n");
     fclose(f);
+    free(u);
 }   
 
 int main() {
