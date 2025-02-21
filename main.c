@@ -201,6 +201,12 @@ void post_up(){
     printf("Post: %s\n", p->text);
 }
 
+void init_trending_topics(trending_topics *ttopics, unsigned max_topics) {
+    ttopics->topics = calloc(max_topics, sizeof(topic));
+    ttopics->size = 0;
+    ttopics->max_topics = max_topics;
+}
+
 int main() {
     sing_in();
     post_up();
