@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 typedef struct User{
     int id; 
@@ -8,7 +9,14 @@ typedef struct User{
     char password[50];
 }user;
 
+typedef struct Post{
+    char create_at[50];
+    char text[500];
+}post;
+
 user *current_user = NULL;
+struct tm *timeinfo;
+time_t seconds;
 
 int str_is_valid(char *str){
     for (int i = 0; str[i] != '\0'; i++){
@@ -78,7 +86,7 @@ void sing_up(){
         if(!str_is_valid(u->password))
             printf("Password Inválida!!\n");
     } while (!str_is_valid(u->password));
-    
+
     add_user(u);
     free(u);
 }
@@ -128,6 +136,42 @@ void sing_in(){
     fclose(f);
     free(u);
 }   
+
+void post_up(){
+
+    if(current_user == NULL){
+        printf("You need to sing in first\n");
+        return;
+    }
+    post *p = (post *) malloc(sizeof(post));
+    if(p == NULL){
+        printf("Memory allocation failed\n");
+        return;
+    }
+
+    time(&seconds);
+    timeinfo = localtime(&seconds);
+    sprintf(p->create_at, "%d:%d:%d %d/%d/%d", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, timeinfo->tm_mday, timeinfo->tm_mon + 1, timeinfo->tm_year+1900);
+    p->create_at[strcspn(p->create_at, "\n")] = 0;
+    
+    char buffer[500];
+    printf("Enter your post: ");
+    fgets(buffer,500,stdin);
+    strcpy(p->text, buffer);
+    p->text[strcspn(buffer, "\n")] = 0;
+    __fpurge(stdin);
+
+
+    FILE *f = fopen("posts.txt", "a");
+    if(f == NULL){
+        printf("Error opening file\n");
+        return;
+    }
+
+    fprintf(f, "%d|%s|%s|%s\n", current_user->id, current_user->user_name, p->text, p->create_at);
+    fclose(f);
+    free(p);
+}
 
 int main() {
 
