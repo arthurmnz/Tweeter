@@ -303,6 +303,65 @@ int is_hashtag_end(char c) {
     return 0;
 }
 
+int get_trending_topics(trending_topics *ttopics) {
+    FILE *posts_ptr;
+    char current_post[500];
+    char *user_name, *time, *text;
+    char topic[50];
+    char topic_found;
+    char topic_exist;
+    unsigned topic_start;
+
+    posts_ptr = fopen("posts.txt", "r");
+
+    if (posts_ptr == NULL){
+        printf("Error while reading %s\n", "posts.txt");
+        return 1;
+    }
+
+
+    while (fgets(current_post, 500, posts_ptr) != NULL) {
+        user_name = strtok(current_post, "|");
+        time = strtok(NULL, "|");
+        text = strtok(NULL, "\n");
+
+        for (unsigned i = 0; text[i] != '\0'; i++) {
+            if (text[i] == '#') {
+                topic[0] = '\0';
+                topic_found = 1;
+                topic_start = i + 1;
+            } else if (topic_found == 1 && is_hashtag_end(text[i]) == 0 && i - topic_start + 1 < sizeof(topic)) {
+                topic[i - topic_start] = text[i];
+                topic[i - topic_start + 1] = '\0';
+
+                if (topic_found == 1 && is_hashtag_end(text[i + 1]) == 1 && topic[0] != '\0') {
+
+                    for (unsigned j = 0; j < ttopics->size; j++) {
+                        if (j == 0) {
+                            topic_exist = 0;
+                        }
+
+                        if (strcmp(ttopics->topics[j].name, topic) == 0) {
+                            topic_exist = 1;
+                            break;
+                        }
+                    }
+
+                    if (topic_exist) {
+                        increment_topic(ttopics, topic);
+                    } else {
+                        add_new_topic(ttopics, topic);
+                    }
+
+                    topic_found = 0;
+                }
+            }
+        }
+    }
+
+    return 0;
+}
+
 int main() {
     sing_in();
     post_up();
