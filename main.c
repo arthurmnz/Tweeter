@@ -207,6 +207,43 @@ void init_trending_topics(trending_topics *ttopics, unsigned max_topics) {
     ttopics->max_topics = max_topics;
 }
 
+int add_new_topic(trending_topics *ttopics, char *new_topic_name) {
+    topic new_topic;
+
+    if (ttopics == NULL || strlen(new_topic_name) == 0 || ttopics->size == ttopics->max_topics) {
+        return 1;
+    }
+
+    strncpy(new_topic.name, new_topic_name, sizeof(new_topic.name));
+    new_topic.posts_count = 1;
+
+    if (ttopics->size == 0) {
+        ttopics->topics[0] = new_topic;
+        ttopics->size++;
+        return 0;
+    }
+    for (unsigned i = 0; i < ttopics->size; i++) {
+        if (strcmp(ttopics->topics[i].name, new_topic_name) == 0) {
+            return 1;
+        }
+
+        if (ttopics->topics[i].posts_count == 1) {
+            for (unsigned j = ttopics->size; j > i; j--) {
+                ttopics->topics[j] = ttopics->topics[j - 1];
+            }
+
+            ttopics->topics[i] = new_topic;
+            ttopics->size++;
+            return 0;
+        }
+    }
+
+    ttopics->topics[ttopics->size] = new_topic;
+    ttopics->size++;
+
+    return 0;
+}
+
 int main() {
     sing_in();
     post_up();
