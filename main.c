@@ -244,6 +244,21 @@ int add_new_topic(trending_topics *ttopics, char *new_topic_name) {
     return 0;
 }
 
+int increment_topic(trending_topics *ttopics, char *topic_name) {
+    if (ttopics == NULL || strlen(topic_name) == 0 || ttopics->size == 0) {
+        return 1;
+    }
+
+    for (unsigned i = 0; i < ttopics->size; i++) {
+        if (strcmp(ttopics->topics[i].name, topic_name) == 0 && ttopics->topics[i].posts_count > 0) {
+            ttopics->topics[i].posts_count++;
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
 int main() {
     sing_in();
     post_up();
