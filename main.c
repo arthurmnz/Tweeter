@@ -1,3 +1,4 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -257,6 +258,14 @@ int increment_topic(trending_topics *ttopics, char *topic_name) {
     }
 
     return 1;
+}
+
+int is_hashtag_end(char c) {
+    if (isalnum(c) == 0 && c != '_') {
+        return 1;
+    }
+
+    return 0;
 }
 
 int main() {
