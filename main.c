@@ -25,7 +25,7 @@ typedef struct Topic {
 typedef struct TrendingTopics {
     topic *topics;
     unsigned size;
-    unsigned max_topics;
+    unsigned capacity;
 } trending_topics;
 
 user *current_user = NULL;
@@ -202,16 +202,16 @@ void post_up(){
     printf("Post: %s\n", p->text);
 }
 
-void init_trending_topics(trending_topics *ttopics, unsigned max_topics) {
-    ttopics->topics = calloc(max_topics, sizeof(topic));
+void init_trending_topics(trending_topics *ttopics, unsigned capacity) {
+    ttopics->topics = calloc(capacity, sizeof(topic));
     ttopics->size = 0;
-    ttopics->max_topics = max_topics;
+    ttopics->capacity = capacity;
 }
 
 int add_new_topic(trending_topics *ttopics, char *new_topic_name) {
     topic new_topic;
 
-    if (ttopics == NULL || strlen(new_topic_name) == 0 || ttopics->size == ttopics->max_topics) {
+    if (ttopics == NULL || strlen(new_topic_name) == 0 || ttopics->size == ttopics->capacity) {
         return 1;
     }
 
