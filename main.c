@@ -259,6 +259,12 @@ int add_new_topic(trending_topics *ttopics, char *new_topic_name) {
 }
 
 int increment_topic(trending_topics *ttopics, char *topic_name) {
+    unsigned current_index;
+    topic temp_topic;
+    char has_error;
+
+    has_error = 1;
+
     if (ttopics == NULL || strlen(topic_name) == 0 || ttopics->size == 0) {
         return 1;
     }
@@ -266,11 +272,27 @@ int increment_topic(trending_topics *ttopics, char *topic_name) {
     for (unsigned i = 0; i < ttopics->size; i++) {
         if (strcmp(ttopics->topics[i].name, topic_name) == 0 && ttopics->topics[i].posts_count > 0) {
             ttopics->topics[i].posts_count++;
-            return 0;
+            current_index = i;
+            has_error = 0;
+            break;
         }
     }
 
-    return 1;
+    for (unsigned i = 0; i < ttopics->size; i++) {
+        if (ttopics->topics[current_index].posts_count >= ttopics->topics[i].posts_count) {
+            temp_topic = ttopics->topics[current_index]; 
+
+            for (unsigned j = current_index; j > i; j--) {
+                ttopics->topics[j] = ttopics->topics[j - 1];
+            }
+
+            ttopics->topics[i] = temp_topic;
+            has_error = 0;
+            break;
+        } 
+    }
+
+    return has_error;
 }
 
 int is_hashtag_end(char c) {
