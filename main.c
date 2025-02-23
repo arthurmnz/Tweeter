@@ -210,9 +210,22 @@ void init_trending_topics(trending_topics *ttopics, unsigned capacity) {
 
 int add_new_topic(trending_topics *ttopics, char *new_topic_name) {
     topic new_topic;
+    topic *new_topics_array;
 
-    if (ttopics == NULL || strlen(new_topic_name) == 0 || ttopics->size == ttopics->capacity) {
+    if (ttopics == NULL || strlen(new_topic_name) == 0) {
         return 1;
+    }
+
+    if (ttopics->size == ttopics->capacity) {
+        new_topics_array = realloc(ttopics->topics, (ttopics->capacity + 1) * sizeof(topic));
+
+        if (new_topics_array == NULL) {
+            printf("Memory allocation failed\n");
+            return 1;
+        } else {
+            ttopics->topics = new_topics_array;
+            ttopics->capacity++;
+        }
     }
 
     strncpy(new_topic.name, new_topic_name, sizeof(new_topic.name));
