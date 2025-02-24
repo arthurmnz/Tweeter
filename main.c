@@ -335,6 +335,7 @@ int get_trending_topics(trending_topics *ttopics) {
                 topic[i - topic_start + 1] = '\0';
 
                 if (topic_found == 1 && is_hashtag_end(text[i + 1]) == 1 && topic[0] != '\0') {
+                    topic_exist = 0;
 
                     for (unsigned j = 0; j < ttopics->size; j++) {
                         if (j == 0) {
