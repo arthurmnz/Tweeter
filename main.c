@@ -363,6 +363,51 @@ int get_trending_topics(trending_topics *ttopics) {
     return 0;
 }
 
+int show_trending_topics(unsigned max_topics) {
+    trending_topics *ttopics;
+    unsigned topics_limit;
+    unsigned topic_min_length;
+    unsigned padding;
+
+    if (max_topics == 0) {
+        max_topics = 5;
+    }
+
+    ttopics = malloc(sizeof(trending_topics));
+
+    init_trending_topics(ttopics, max_topics);
+
+    if (get_trending_topics(ttopics)) {
+        return 1;
+    }
+
+    topics_limit = ttopics->size <= max_topics ? ttopics->size : max_topics;
+
+    for (unsigned i = 0; i < topics_limit; i++) {
+        if (i == 0) {
+            topic_min_length = strlen(ttopics->topics[0].name);
+        } else if (strlen(ttopics->topics[i].name) > topic_min_length) {
+            topic_min_length = strlen(ttopics->topics[i].name);
+        }
+    }
+
+    printf("Trending Topics:\n");
+
+    for (unsigned i = 0; i < topics_limit; i++) {
+        padding = topic_min_length - strlen(ttopics->topics[i].name);
+
+        printf("#%s", ttopics->topics[i].name);
+
+        for (unsigned j = 0; j < padding; j++) {
+            printf(" ");
+        }
+
+        printf(" - %u\n", ttopics->topics[i].posts_count);
+    }
+
+    return 0;
+}
+
 int main() {
     sing_in();
     post_up();
