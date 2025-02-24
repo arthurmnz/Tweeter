@@ -408,6 +408,80 @@ int show_trending_topics(unsigned max_topics) {
     return 0;
 }
 
+int show_timeline(unsigned max_posts) {
+    FILE *posts_ptr;
+    char buffer[500];
+    char *user_name, *time, *text;
+    char formatted_time[6];
+    unsigned posts_counter;
+    long line_end;
+    long pos;
+
+    posts_counter = 0;
+
+    posts_ptr = fopen("posts.txt", "r");
+
+    if (posts_ptr == NULL){
+        printf("Error while reading %s\n", "posts.txt");
+        return 1;
+    }
+
+    if (max_posts == 0) {
+        max_posts = 10;
+    }
+
+    if (fseek(posts_ptr, 0, SEEK_END) != 0) {
+        perror("Error seeking in file");
+        fclose(posts_ptr);
+        return 1;
+    }
+
+    pos = ftell(posts_ptr);
+
+    if (pos <= 0) {
+        fclose(posts_ptr);
+        return 1;
+    }
+
+    line_end = pos;
+    
+    while (pos >= 0) {
+        fseek(posts_ptr, pos, SEEK_SET);
+        int ch = fgetc(posts_ptr);
+        
+        if (ch == '\n' || pos == 0) {  
+            long line_start = (pos == 0) ? pos : pos + 1;
+            size_t line_length = line_end - line_start;
+
+            if (line_length > 0) {
+                fseek(posts_ptr, line_start, SEEK_SET);
+                fread(buffer, 1, line_length, posts_ptr);
+                buffer[line_length] = '\0';
+
+                user_name = strtok(buffer, "|");
+                time = strtok(NULL, "|");
+                text = strtok(NULL, "\n");
+
+                strncpy(formatted_time, time, 5);
+
+                printf("@%s às %s - \"%s\"\n", user_name, formatted_time, text);
+
+                posts_counter++;
+
+                if (posts_counter == max_posts) {
+                    break;
+                }
+            }
+
+            line_end = pos;
+        }
+
+        pos--;
+    }
+
+    fclose(posts_ptr);
+}
+
 int main() {
     sing_in();
     post_up();
