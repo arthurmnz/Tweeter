@@ -17,10 +17,10 @@ int show_timeline(unsigned max_posts) {
 
     posts_counter = 0;
 
-    posts_ptr = fopen("posts.txt", "r");
+    posts_ptr = fopen(POSTS_FILE, "r");
 
     if (posts_ptr == NULL){
-        printf("Error while reading %s\n", "posts.txt");
+        printf("Error while reading %s\n", POSTS_FILE);
         return 1;
     }
 

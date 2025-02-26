@@ -48,7 +48,7 @@ int main() {
             show_trending_topics(INITIAL_TRENDING_TOPICS_CAPACITY);
             break;
         case 3:
-
+            show_timeline(TIMELINE_LENGTH);
             break;
         case 4:
             return 1;
