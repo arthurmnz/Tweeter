@@ -139,3 +139,7 @@ user* sing_in(){
     free(u);
     return NULL;
 }   
+
+void sing_out(user *current_user){
+    current_user = NULL;
+}
