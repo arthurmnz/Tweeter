@@ -1,7 +1,6 @@
 #ifndef TRENDING_H
 #define TRENDING_H
 #define INITIAL_TRENDING_TOPICS_CAPACITY 5
-#define POSTS_FILE "../files/posts.txt"
 
 typedef struct Topic {
     char name[50];

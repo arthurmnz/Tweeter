@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <time.h>
 #include "trending.h"
+#include "post.h"
 
 
 void init_trending_topics(trending_topics *ttopics, unsigned capacity) {
@@ -117,10 +118,10 @@ int get_trending_topics(trending_topics *ttopics) {
     char topic_exist;
     unsigned topic_start;
 
-    posts_ptr = fopen(POSTS_FILE, "r");
+    posts_ptr = fopen(POST_FILE_NAME, "r");
 
     if (posts_ptr == NULL){
-        printf("Error while reading %s\n", POSTS_FILE);
+        printf("Error while reading %s\n", POST_FILE_NAME);
         return 1;
     }
 

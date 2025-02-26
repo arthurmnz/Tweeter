@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <time.h>
 #include "timeline.h"
+#include "post.h"
 
 int show_timeline(unsigned max_posts) {
     FILE *posts_ptr;
@@ -17,10 +18,10 @@ int show_timeline(unsigned max_posts) {
 
     posts_counter = 0;
 
-    posts_ptr = fopen(POSTS_FILE, "r");
+    posts_ptr = fopen(POST_FILE_NAME, "r");
 
     if (posts_ptr == NULL){
-        printf("Error while reading %s\n", POSTS_FILE);
+        printf("Error while reading %s\n", POST_FILE_NAME);
         return 1;
     }
 
