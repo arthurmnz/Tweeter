@@ -1,3 +1,4 @@
+
 # Makefile for Tweeter project
 
 # Compiler and flags
@@ -23,7 +24,11 @@ $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
 $(BUILD_DIR)/$(TARGET): $(OBJS)
+ifeq ($(strip $(OBJS)),)
+	@echo "No source files found in $(SRC_DIR)"
+else
 	$(CC) $(CFLAGS) -o $@ $^
+endif
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
