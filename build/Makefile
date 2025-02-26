@@ -1,4 +1,3 @@
-
 # Makefile for Tweeter project
 
 # Compiler and flags
@@ -9,6 +8,7 @@ CFLAGS = -Wall -Wextra -std=c11
 SRC_DIR = ../src
 BUILD_DIR = ../build
 INCLUDE_DIR = ../include
+FILES_DIR = ../files
 
 # Source files
 SRCS = $(wildcard $(SRC_DIR)/*.c)
@@ -18,10 +18,13 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 TARGET = tweeter
 
 # Rules
-all: $(BUILD_DIR) $(BUILD_DIR)/$(TARGET)
+all: $(BUILD_DIR) $(FILES_DIR) $(BUILD_DIR)/$(TARGET)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+
+$(FILES_DIR):
+	mkdir -p $(FILES_DIR)
 
 $(BUILD_DIR)/$(TARGET): $(OBJS)
 ifeq ($(strip $(OBJS)),)
