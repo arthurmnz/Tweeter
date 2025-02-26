@@ -45,7 +45,7 @@ int main() {
             post_up(current_user);
             break;
         case 2:
-
+            show_trending_topics(INITIAL_TRENDING_TOPICS_CAPACITY);
             break;
         case 3:
 

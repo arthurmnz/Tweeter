@@ -117,10 +117,10 @@ int get_trending_topics(trending_topics *ttopics) {
     char topic_exist;
     unsigned topic_start;
 
-    posts_ptr = fopen("posts.txt", "r");
+    posts_ptr = fopen(POSTS_FILE, "r");
 
     if (posts_ptr == NULL){
-        printf("Error while reading %s\n", "posts.txt");
+        printf("Error while reading %s\n", POSTS_FILE);
         return 1;
     }
 
