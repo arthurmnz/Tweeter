@@ -79,4 +79,5 @@ int show_timeline(unsigned max_posts) {
     }
 
     fclose(posts_ptr);
+    return 0;
 }
