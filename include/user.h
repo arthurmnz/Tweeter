@@ -16,5 +16,6 @@ int username_is_valid(char *);
 void add_user(user *);
 void sing_up();
 user* sing_in();
+void sing_out(user *);
 
 #endif //USER_H
