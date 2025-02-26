@@ -23,7 +23,7 @@ void post_up(user *current_user){
     //criacao do post
     time(&seconds);
     timeinfo = localtime(&seconds);
-    sprintf(p->create_at, "%d:%d:%d %d/%d/%d", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, timeinfo->tm_mday, timeinfo->tm_mon + 1 ,timeinfo->tm_year + 1900);
+    sprintf(p->create_at, "%02d:%02d:%02d %02d/%02d/%02d", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec, timeinfo->tm_mday, timeinfo->tm_mon + 1 ,timeinfo->tm_year + 1900);
     p->create_at[strcspn(p->create_at, "\n")] = 0;
     
     //texto do post
