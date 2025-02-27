@@ -6,26 +6,23 @@
 #include "file.h"
 #include "input.h"
 
-int username_is_valid(char *username_entry){    
-    FILE *users_read = fopen(USER_FILE_NAME, "r");
-    if(users_read == NULL){
-        //nenhum usuario registrado
-        fclose(users_read);
-        return 1;
-    }
-    
+int username_in_use(char *username_entry){    
+    FILE *users_read;
     char buffer[500];
+    
+    users_read= fopen(USER_FILE_NAME, "r");
     while(fgets(buffer, 500, users_read) != NULL){
         char *username = strtok(buffer, "|");
+        strtok(NULL, "\n");
 
         if(strcmp(username_entry, username) == 0){
 
             fclose(users_read);
-            return 0;
+            return 1;
         }
     }
     fclose(users_read);
-    return 1;
+    return 0;
 }
 
 void add_user(user *u){
@@ -49,35 +46,31 @@ void sing_up(){
         return;
     }
     
-    do{
-        printf("Digite username: ");
-        
-        fgets(buffer_username, MAX_TAM_USERNAME, stdin);
-        strcpy(u->username, buffer_username);
-        u->username[strcspn(buffer_username, "\n")] = 0;
-        __fpurge(stdin);
+    do{  
+        user_input(buffer_username, MAX_TAM_USERNAME, "Digite username: ", 0);
 
-        if (there_is_space(u->username))
+        if (there_is_space(buffer_username))
             printf("\nUsername não pode ter espaços!!\n\n");
-        else if(!username_is_valid(u->username))
+
+        else if(username_is_valid(buffer_username))
             printf("\nUsername em uso!!\n\n");
-    } while (there_is_space(u->username) || !username_is_valid(u->username));
 
+    } while (there_is_space(buffer_username) || username_is_valid(buffer_username));
+    
     do{
-        printf("Enter password: ");
-
-        fgets(buffer_password, MAX_TAM_PASSWORD, stdin);
-        strcpy(u->password, buffer_password);
-        u->password[strcspn(buffer_password, "\n")] = 0;
-        clear_stdin();
+        user_input(buffer_password, MAX_TAM_PASSWORD, "Digite a senha: ", 0);
 
         if(there_is_space(u->password))
             printf("\nPassword não pode ter espaços!!\n\n");
             
     } while (there_is_space(u->password));
 
+    strcpy(u->username, buffer_username);
+    strcpy(u->password, buffer_password);
+
     add_user(u);
     free(u);
+    
     printf("\nUsuario cadastrado com sucesso!!\n\n");
 }
 
