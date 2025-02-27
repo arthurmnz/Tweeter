@@ -3,6 +3,7 @@
 
 #define MAX_TAM_USERNAME  50
 #define MAX_TAM_TEXT_POST 500
+#define MAX_TAM_DATE 25
 #define POST_FILE_NAME "../files/posts.txt"
 
 
@@ -10,7 +11,7 @@
 
 typedef struct Post{
     char username[MAX_TAM_USERNAME];
-    char create_at[50];
+    char create_at[MAX_TAM_DATE];
     char text[MAX_TAM_TEXT_POST];
 }post;
 
