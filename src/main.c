@@ -15,9 +15,20 @@ user *current_user = NULL;
 int main() {
     char choice_buffer[100];
     int user_choice;
+    unsigned char first_login;
+
+    first_login = 1;
 
     create_file(USER_FILE_NAME);
     create_file(POST_FILE_NAME);
+
+    printf("Bem vindo(a) ao\n");
+    printf(" _____                   _            \n"
+        "|_   _|_      _____  ___| |_ ___ _ __ \n"
+        "  | | \\ \\ /\\ / / _ \\/ _ \\ __/ _ \\ '__|\n"
+        "  | |  \\ V  V /  __/  __/ ||  __/ |   \n"
+        "  |_|   \\_/\\_/ \\___|\\___|\\__\\___|_|   \n\n"
+    );
 
     while (current_user == NULL) {
         printf("-------------------\n  [ 1 ] Entrar\n  [ 2 ] Cadastrar\n  [ 3 ] Sair\n-------------------\n\n");
@@ -39,6 +50,11 @@ int main() {
         }
     }
     while (1){
+        if (first_login == 1) {
+            printf("\nBem vindo(a), %s\n", current_user);
+            first_login = 0;
+        }
+
         printf("\n-------------------------\n  [ 1 ] Novo post\n  [ 2 ] Trending Topics\n  [ 3 ] Timeline\n  [ 4 ] Sair\n-------------------------\n\n");
         user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
         user_choice = atoi(choice_buffer);
