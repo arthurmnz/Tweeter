@@ -27,6 +27,7 @@ int username_in_use(char *username_entry){
 
 void add_user(user *u){
     FILE *user_append;
+
     user_append = fopen(USER_FILE_NAME, "a");
     if(user_append == NULL){
         printf("Error opening file\n");
@@ -52,10 +53,10 @@ void sing_up(){
         if (there_is_space(buffer_username))
             printf("\nUsername não pode ter espaços!!\n\n");
 
-        else if(username_is_valid(buffer_username))
+        else if(username_in_use(buffer_username))
             printf("\nUsername em uso!!\n\n");
 
-    } while (there_is_space(buffer_username) || username_is_valid(buffer_username));
+    } while (there_is_space(buffer_username) || username_in_use(buffer_username));
     
     do{
         user_input(buffer_password, MAX_TAM_PASSWORD, "Digite a senha: ", 0);
@@ -70,7 +71,7 @@ void sing_up(){
 
     add_user(u);
     free(u);
-    
+
     printf("\nUsuario cadastrado com sucesso!!\n\n");
 }
 
@@ -95,14 +96,14 @@ user* sing_in(){
     fgets(buffer_name, MAX_TAM_USERNAME, stdin);
     strcpy(u->username, buffer_name);
     u->username[strcspn(buffer_name, "\n")] = 0;
-    __fpurge(stdin);
+    clear_stdin();
 
     printf("Enter password: ");
 
     fgets(buffer_password, MAX_TAM_PASSWORD, stdin);
     strcpy(u->password, buffer_password);
     u->password[strcspn(buffer_password, "\n")] = 0;
-    __fpurge(stdin);
+    clear_stdin();
 
     char buffer[500];
     while(fgets(buffer, 500, user_read) != NULL){
