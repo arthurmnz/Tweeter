@@ -3,7 +3,7 @@
 
 #define MAX_TAM_USERNAME  50
 #define MAX_TAM_TEXT_POST 500
-#define MAX_TAM_DATE 25
+#define MAX_TAM_DATE 50
 #define POST_FILE_NAME "../files/posts.txt"
 
 
