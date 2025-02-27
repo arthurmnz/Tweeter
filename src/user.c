@@ -62,8 +62,7 @@ void sing_up(){
     
 
     do{
-        printf("Username não pode conter espaços\n");
-        printf("Enter username: ");
+        printf("Digite username: ");
         
         fgets(buffer_username, MAX_TAM_USERNAME, stdin);
         strcpy(u->username, buffer_username);
@@ -71,13 +70,12 @@ void sing_up(){
         __fpurge(stdin);
 
         if (!str_is_valid(u->username))
-            printf("\nUsername Inválido!!\n\n");
+            printf("\nUsername não pode ter espaços!!\n\n");
         else if(!username_is_valid(u->username))
             printf("\nUsername em uso!!\n\n");
     } while (!str_is_valid(u->username) || !username_is_valid(u->username));
 
     do{
-        printf("Password não pode conter espaços\n");
         printf("Enter password: ");
 
         fgets(buffer_password, MAX_TAM_PASSWORD, stdin);
@@ -86,12 +84,13 @@ void sing_up(){
         __fpurge(stdin);
 
         if(!str_is_valid(u->password))
-            printf("\nPassword Inválida!!\n\n");
+            printf("\nPassword não pode ter espaços!!\n\n");
             
     } while (!str_is_valid(u->password));
 
     add_user(u);
     free(u);
+    printf("\nUsuario cadastrado com sucesso!!\n\n");
 }
 
 user* sing_in(){   
