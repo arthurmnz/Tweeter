@@ -112,7 +112,7 @@ int is_hashtag_end(char c) {
 int get_trending_topics(trending_topics *ttopics) {
     FILE *posts_ptr;
     char current_post[500];
-    char *username, *time, *text;
+    char *text;
     char topic[50];
     char topic_found;
     char topic_exist;
@@ -127,8 +127,8 @@ int get_trending_topics(trending_topics *ttopics) {
 
 
     while (fgets(current_post, 500, posts_ptr) != NULL) {
-        username = strtok(current_post, "|");
-        time = strtok(NULL, "|");
+        strtok(current_post, "|");
+        strtok(NULL, "|");
         text = strtok(NULL, "\n");
 
         for (unsigned i = 0; text[i] != '\0'; i++) {
