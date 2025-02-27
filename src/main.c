@@ -8,20 +8,22 @@
 #include "file.h"
 #include "trending.h"
 #include "timeline.h"
+#include "input.h"
 
 user *current_user = NULL;
 
 int main() {
-    
-    int buffer_choice;
+    char choice_buffer[100];
+    int user_choice;
+
     create_file(USER_FILE_NAME);
     create_file(POST_FILE_NAME);
 
     while (current_user == NULL){
-        printf("---\n[ 1 ] Sing-in\n[ 2 ] Sing-up\n[ 3 ] Sair\n---Opcao: ");
-        scanf("%d", &buffer_choice);
-        __fpurge(stdin);
-        switch (buffer_choice){
+        printf("---\n[ 1 ] Sing-in\n[ 2 ] Sing-up\n[ 3 ] Sair\n---\n\n");
+        user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
+        user_choice = atoi(choice_buffer);
+        switch (user_choice) {
         case 1:
             current_user = sing_in(); 
             break;
@@ -37,10 +39,10 @@ int main() {
         }
     }
     while (1){
-        printf("---\n[ 1 ] Post\n[ 2 ] Trending Topics\n[ 3 ] Timeline\n[ 4 ] Sair\n---Opcao: ");
-        scanf("%d", &buffer_choice);
-        __fpurge(stdin);
-        switch (buffer_choice){
+        printf("---\n[ 1 ] Post\n[ 2 ] Trending Topics\n[ 3 ] Timeline\n[ 4 ] Sair\n---\n\n");
+        user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
+        user_choice = atoi(choice_buffer);
+        switch (user_choice){
         case 1:
             post_up(current_user);
             break;
