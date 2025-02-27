@@ -5,6 +5,7 @@
 #include <time.h>
 #include "user.h"
 #include "file.h"
+#include "input.h"
 
 int str_is_valid(char *str){
     for (int i = 0; str[i] != '\0'; i++){
@@ -63,12 +64,9 @@ void sing_up(){
 
     do{
         printf("Username não pode conter espaços\n");
-        printf("Enter username: ");
         
-        fgets(buffer_username, MAX_TAM_USERNAME, stdin);
+        user_input(buffer_username, MAX_TAM_USERNAME, "Enter username: ", 0);
         strcpy(u->username, buffer_username);
-        u->username[strcspn(buffer_username, "\n")] = 0;
-        __fpurge(stdin);
 
         if (!str_is_valid(u->username))
             printf("\nUsername Inválido!!\n\n");
@@ -78,12 +76,9 @@ void sing_up(){
 
     do{
         printf("Password não pode conter espaços\n");
-        printf("Enter password: ");
 
-        fgets(buffer_password, MAX_TAM_PASSWORD, stdin);
+        user_input(buffer_password, MAX_TAM_PASSWORD, "Enter password: ", 0);
         strcpy(u->password, buffer_password);
-        u->password[strcspn(buffer_password, "\n")] = 0;
-        __fpurge(stdin);
 
         if(!str_is_valid(u->password))
             printf("\nPassword Inválida!!\n\n");
@@ -110,19 +105,15 @@ user* sing_in(){
         return NULL;
     }    
 
-    printf("Enter user name: ");
-
-    fgets(buffer_name, MAX_TAM_USERNAME, stdin);
+    user_input(buffer_name, MAX_TAM_USERNAME, "Enter user name: ", 0);
     strcpy(u->username, buffer_name);
-    u->username[strcspn(buffer_name, "\n")] = 0;
-    __fpurge(stdin);
 
-    printf("Enter password: ");
-
-    fgets(buffer_password, MAX_TAM_PASSWORD, stdin);
+    user_input(buffer_password, MAX_TAM_PASSWORD, "Enter password: ", 0);
     strcpy(u->password, buffer_password);
-    u->password[strcspn(buffer_password, "\n")] = 0;
-    __fpurge(stdin);
+    for (int i = 0; i < MAX_TAM_PASSWORD; i++) {
+        printf("%d\n", buffer_password[i]);
+    }
+
 
     char buffer[500];
     while(fgets(buffer, 500, user_read) != NULL){
