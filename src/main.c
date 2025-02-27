@@ -19,8 +19,8 @@ int main() {
     create_file(USER_FILE_NAME);
     create_file(POST_FILE_NAME);
 
-    while (current_user == NULL){
-        printf("---\n[ 1 ] Sing-in\n[ 2 ] Sing-up\n[ 3 ] Sair\n---\n\n");
+    while (current_user == NULL) {
+        printf("-------------------\n  [ 1 ] Entrar\n  [ 2 ] Cadastrar\n  [ 3 ] Sair\n-------------------\n\n");
         user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
         user_choice = atoi(choice_buffer);
         switch (user_choice) {
@@ -34,12 +34,12 @@ int main() {
             return 1;
             break;
         default:
-            printf("Escolha invalida!");
+            printf("\nEscolha inválida!\n\n");
             break;
         }
     }
     while (1){
-        printf("---\n[ 1 ] Post\n[ 2 ] Trending Topics\n[ 3 ] Timeline\n[ 4 ] Sair\n---\n\n");
+        printf("\n-------------------------\n  [ 1 ] Novo post\n  [ 2 ] Trending Topics\n  [ 3 ] Timeline\n  [ 4 ] Sair\n-------------------------\n\n");
         user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
         user_choice = atoi(choice_buffer);
         switch (user_choice){
