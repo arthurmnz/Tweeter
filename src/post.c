@@ -28,12 +28,9 @@ void post_up(user *current_user){
     
     //texto do post
     char buffer[MAX_TAM_TEXT_POST];
-    printf("Digite o conteudo: ");
 
-    fgets(buffer, MAX_TAM_TEXT_POST,stdin);
+    user_input(buffer, MAX_TAM_TEXT_POST, "Digite o conteudo: ", 0);
     strcpy(p->text, buffer);
-    p->text[strcspn(buffer, "\n")] = 0;
-    __fpurge(stdin);
 
     FILE *user_add = fopen(POST_FILE_NAME, "a");
 
