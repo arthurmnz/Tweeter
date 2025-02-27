@@ -11,7 +11,7 @@ typedef struct User{
     char password[MAX_TAM_PASSWORD];
 }user;
 
-int str_is_valid(char *);
+int there_is_space(char *);
 int username_is_valid(char *);
 void add_user(user *);
 void sing_up();

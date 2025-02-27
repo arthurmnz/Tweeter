@@ -1,23 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio_ext.h>
 #include <time.h>
 #include "user.h"
 #include "file.h"
+#include "input.h"
 
-int str_is_valid(char *str){
-    for (int i = 0; str[i] != '\0'; i++){
-        if(str[i] == ' '){
-            return 0;
-        }
-    }
-    return 1;
-}
-
-int username_is_valid(char *username_entry){
-    
-    
+int username_is_valid(char *username_entry){    
     FILE *users_read = fopen(USER_FILE_NAME, "r");
     if(users_read == NULL){
         //nenhum usuario registrado
@@ -60,7 +49,6 @@ void sing_up(){
         return;
     }
     
-
     do{
         printf("Digite username: ");
         
@@ -69,11 +57,11 @@ void sing_up(){
         u->username[strcspn(buffer_username, "\n")] = 0;
         __fpurge(stdin);
 
-        if (!str_is_valid(u->username))
+        if (there_is_space(u->username))
             printf("\nUsername não pode ter espaços!!\n\n");
         else if(!username_is_valid(u->username))
             printf("\nUsername em uso!!\n\n");
-    } while (!str_is_valid(u->username) || !username_is_valid(u->username));
+    } while (there_is_space(u->username) || !username_is_valid(u->username));
 
     do{
         printf("Enter password: ");
@@ -81,12 +69,12 @@ void sing_up(){
         fgets(buffer_password, MAX_TAM_PASSWORD, stdin);
         strcpy(u->password, buffer_password);
         u->password[strcspn(buffer_password, "\n")] = 0;
-        __fpurge(stdin);
+        clear_stdin();
 
-        if(!str_is_valid(u->password))
+        if(there_is_space(u->password))
             printf("\nPassword não pode ter espaços!!\n\n");
             
-    } while (!str_is_valid(u->password));
+    } while (there_is_space(u->password));
 
     add_user(u);
     free(u);
