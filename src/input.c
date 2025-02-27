@@ -97,3 +97,12 @@ int validate_int_input(char *input, int min, int max) {
 
     return invalid_input;
 }
+
+int there_is_space(char *str){
+    for (int i = 0; str[i] != '\0'; i++){
+        if(str[i] == ' '){
+            return 1;
+        }
+    }
+    return 0;
+}

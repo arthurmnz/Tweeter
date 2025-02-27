@@ -1,47 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio_ext.h>
 #include <time.h>
 #include "user.h"
 #include "file.h"
 #include "input.h"
 
-int str_is_valid(char *str){
-    for (int i = 0; str[i] != '\0'; i++){
-        if(str[i] == ' '){
-            return 0;
-        }
-    }
-    return 1;
-}
-
-int username_is_valid(char *username_entry){
-    
-    
-    FILE *users_read = fopen(USER_FILE_NAME, "r");
-    if(users_read == NULL){
-        //nenhum usuario registrado
-        fclose(users_read);
-        return 1;
-    }
-    
+int username_in_use(char *username_entry){    
+    FILE *users_read;
     char buffer[500];
+    
+    users_read= fopen(USER_FILE_NAME, "r");
     while(fgets(buffer, 500, users_read) != NULL){
         char *username = strtok(buffer, "|");
+        strtok(NULL, "\n");
 
         if(strcmp(username_entry, username) == 0){
 
             fclose(users_read);
-            return 0;
+            return 1;
         }
     }
     fclose(users_read);
-    return 1;
+    return 0;
 }
 
 void add_user(user *u){
     FILE *user_append;
+
     user_append = fopen(USER_FILE_NAME, "a");
     if(user_append == NULL){
         printf("Error opening file\n");
@@ -61,73 +47,68 @@ void sing_up(){
         return;
     }
     
+    do{  
+        user_input(buffer_username, MAX_TAM_USERNAME, "Digite username: ", 0);
 
-    do{
-        printf("Username não pode conter espaços\n");
-        
-        user_input(buffer_username, MAX_TAM_USERNAME, "Enter username: ", 0);
-        strcpy(u->username, buffer_username);
+        if (there_is_space(buffer_username))
+            printf("\nUsername não pode ter espaços!!\n\n");
 
-        if (!str_is_valid(u->username))
-            printf("\nUsername Inválido!!\n\n");
-        else if(!username_is_valid(u->username))
+        else if(username_in_use(buffer_username))
             printf("\nUsername em uso!!\n\n");
-    } while (!str_is_valid(u->username) || !username_is_valid(u->username));
 
+    } while (there_is_space(buffer_username) || username_in_use(buffer_username));
+    
     do{
-        printf("Password não pode conter espaços\n");
+        user_input(buffer_password, MAX_TAM_PASSWORD, "Digite a senha: ", 0);
 
-        user_input(buffer_password, MAX_TAM_PASSWORD, "Enter password: ", 0);
-        strcpy(u->password, buffer_password);
-
-        if(!str_is_valid(u->password))
-            printf("\nPassword Inválida!!\n\n");
+        if(there_is_space(u->password))
+            printf("\nPassword não pode ter espaços!!\n\n");
             
-    } while (!str_is_valid(u->password));
+    } while (there_is_space(u->password));
+
+    strcpy(u->username, buffer_username);
+    strcpy(u->password, buffer_password);
 
     add_user(u);
     free(u);
+
+    printf("\nUsuario cadastrado com sucesso!!\n\n");
 }
 
 user* sing_in(){   
-    FILE *user_read = fopen(USER_FILE_NAME, "r");
-    if(user_read == NULL){
-        printf("Nenhum usuario cadastrado\n");
-        fclose(user_read);
-        return NULL;
-    }
-
+    FILE *user_read;
     char buffer_name[MAX_TAM_USERNAME];
     char buffer_password[MAX_TAM_PASSWORD];
     user *u = (user *) malloc(sizeof(user));
+
+    user_read = fopen(USER_FILE_NAME, "r");
+
     if(u == NULL){
         printf("Memory allocation failed\n");
         return NULL;
     }    
 
-    user_input(buffer_name, MAX_TAM_USERNAME, "Enter user name: ", 0);
-    strcpy(u->username, buffer_name);
-
-    user_input(buffer_password, MAX_TAM_PASSWORD, "Enter password: ", 0);
-    strcpy(u->password, buffer_password);
-    for (int i = 0; i < MAX_TAM_PASSWORD; i++) {
-        printf("%d\n", buffer_password[i]);
-    }
-
-
+    user_input(buffer_name, MAX_TAM_USERNAME, "Digite seu username: ", 0);
+    
+    user_input(buffer_password, MAX_TAM_PASSWORD, "Digite seu password: ", 0);
+    
+    
     char buffer[500];
     while(fgets(buffer, 500, user_read) != NULL){
         char *username = strtok(buffer, "|");
         char *password = strtok(NULL, "\n");
-
-        if(strcmp(u->username, username) == 0 && strcmp(u->password, password) == 0){
+        
+        if(strcmp(buffer_name, username) == 0 && strcmp(buffer_password, password) == 0){
+            strcpy(u->username, buffer_name);
+            strcpy(u->password, buffer_password);
             fclose(user_read);
             return u;
         }
     }
-    printf("Usuario ou senha nao encontrado!!\n");
     fclose(user_read);
     free(u);
+    
+    printf("Usuario ou senha nao encontrado!!\n");
     return NULL;
 }   
 
