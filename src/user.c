@@ -76,48 +76,39 @@ void sing_up(){
 }
 
 user* sing_in(){   
-    FILE *user_read = fopen(USER_FILE_NAME, "r");
-    if(user_read == NULL){
-        printf("Nenhum usuario cadastrado\n");
-        fclose(user_read);
-        return NULL;
-    }
-
+    FILE *user_read;
     char buffer_name[MAX_TAM_USERNAME];
     char buffer_password[MAX_TAM_PASSWORD];
     user *u = (user *) malloc(sizeof(user));
+
+    user_read = fopen(USER_FILE_NAME, "r");
+
     if(u == NULL){
         printf("Memory allocation failed\n");
         return NULL;
     }    
 
-    printf("Enter user name: ");
-
-    fgets(buffer_name, MAX_TAM_USERNAME, stdin);
-    strcpy(u->username, buffer_name);
-    u->username[strcspn(buffer_name, "\n")] = 0;
-    clear_stdin();
-
-    printf("Enter password: ");
-
-    fgets(buffer_password, MAX_TAM_PASSWORD, stdin);
-    strcpy(u->password, buffer_password);
-    u->password[strcspn(buffer_password, "\n")] = 0;
-    clear_stdin();
-
+    user_input(buffer_name, MAX_TAM_USERNAME, "Digite seu username: ", 0);
+    
+    user_input(buffer_password, MAX_TAM_PASSWORD, "Digite seu password: ", 0);
+    
+    
     char buffer[500];
     while(fgets(buffer, 500, user_read) != NULL){
         char *username = strtok(buffer, "|");
         char *password = strtok(NULL, "\n");
-
-        if(strcmp(u->username, username) == 0 && strcmp(u->password, password) == 0){
+        
+        if(strcmp(buffer_name, username) == 0 && strcmp(buffer_password, password) == 0){
+            strcpy(u->username, buffer_name);
+            strcpy(u->password, buffer_password);
             fclose(user_read);
             return u;
         }
     }
-    printf("Usuario ou senha nao encontrado!!\n");
     fclose(user_read);
     free(u);
+    
+    printf("Usuario ou senha nao encontrado!!\n");
     return NULL;
 }   
 
