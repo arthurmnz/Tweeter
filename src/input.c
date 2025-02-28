@@ -20,6 +20,12 @@ void format_input(char *input) {
     first_alpha_found = 0;
     spaces_only = 1;
 
+    if (strchr(input, '\n') == NULL) {
+        clear_stdin();
+    } else {
+        input[strlen(input) - 1] = '\0';
+    }
+
     for (unsigned i = 0; input[i] != '\0'; i++) {
         if (input[i] != ' ') {
             last_char_index = i;
@@ -39,18 +45,10 @@ void format_input(char *input) {
     }
 
     for (unsigned i = first_alpha_index; i <= last_char_index; i++) {
-        if (i == last_char_index) {
-            input[last_char_index + 1] = '\0';
-        }
-
         input[i - first_alpha_index] = input[i];
     }
 
-    if (strchr(input, '\n') == NULL) {
-        clear_stdin();
-    } else {
-        input[strlen(input) - 1] = '\0';
-    }
+    input[last_char_index - first_alpha_index + 1] = '\0';
 
     return;
 }
