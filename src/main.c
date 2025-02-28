@@ -50,7 +50,7 @@ int main() {
         }
     while (current_user != NULL) {
         if (first_login == 1) {
-            printf("\nBem vindo(a), %s\n", current_user);
+            printf("\nBem vindo(a), %s\n", current_user->username);
             first_login = 0;
         }
 
