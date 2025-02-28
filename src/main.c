@@ -33,6 +33,10 @@ int main() {
     while (current_user == NULL) {
         printf("-------------------\n  [ 1 ] Entrar\n  [ 2 ] Cadastrar\n  [ 3 ] Sair\n-------------------\n\n");
         user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
+        if (validate_int_input(choice_buffer, 1, 3) == 1) {
+            printf("\nEscolha inválida!\n\n");
+            continue;
+        }
         user_choice = atoi(choice_buffer);
         switch (user_choice) {
         case 1:
@@ -56,6 +60,10 @@ int main() {
 
             printf("\n-------------------------\n  [ 1 ] Novo post\n  [ 2 ] Trending Topics\n  [ 3 ] Timeline\n  [ 4 ] logout\n-------------------------\n\n");
             user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
+            if (validate_int_input(choice_buffer, 1, 4) == 1) {
+                printf("\nEscolha inválida!\n\n");
+                continue;
+            }
             user_choice = atoi(choice_buffer);
             switch (user_choice)
             {
