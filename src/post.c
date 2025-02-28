@@ -30,6 +30,10 @@ void post_up(user *current_user){
     //texto do post
     char buffer[MAX_TAM_TEXT_POST];
     user_input(buffer, MAX_TAM_TEXT_POST, "Digite o conteúdo: ", 0);
+    if (validate_input(buffer) == 1) {
+        printf("O post não pode ser vazio\n\n");
+        return;
+    }
     strcpy(p->text, buffer);
 
     FILE *user_add = fopen(POST_FILE_NAME, "a");
