@@ -30,6 +30,7 @@ void post_up(user *current_user){
     //texto do post
     char buffer[MAX_TAM_TEXT_POST];
     user_input(buffer, MAX_TAM_TEXT_POST, "Digite o conteúdo: ", 0);
+    printf("\n");
     if (validate_input(buffer) == 1) {
         printf("O post não pode ser vazio\n\n");
         return;
@@ -41,5 +42,5 @@ void post_up(user *current_user){
     fprintf(user_add, "%s|%s|%s\n", p->username, p->create_at, p->text);
     fclose(user_add);
 
-    printf("Post: %s\n", p->text);
+    printf("Post: %s\n\n", p->text);
 }
