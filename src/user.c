@@ -112,7 +112,7 @@ user* sing_in(){
     return NULL;
 }   
 
-void sing_out(user *current_user){
+void log_out(user *current_user){
     free(current_user);
     current_user = NULL;
 }

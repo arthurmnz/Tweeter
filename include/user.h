@@ -15,6 +15,6 @@ int username_in_use(char *);
 void add_user(user *);
 void sing_up();
 user* sing_in();
-void sing_out(user *);
+void log_out(user *);
 
 #endif //USER_H
