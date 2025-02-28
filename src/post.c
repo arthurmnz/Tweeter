@@ -5,6 +5,7 @@
 #include <time.h>
 #include "post.h"
 #include "user.h"
+#include "input.h"
 
 
 void post_up(user *current_user){
