@@ -114,5 +114,4 @@ user* sing_in(){
 
 void log_out(user *current_user){
     free(current_user);
-    current_user = NULL;
 }

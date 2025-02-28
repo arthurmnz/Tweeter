@@ -48,34 +48,36 @@ int main() {
             printf("\nEscolha inválida!\n\n");
             break;
         }
-    }
-    while (1){
+    while (current_user != NULL) {
         if (first_login == 1) {
             printf("\nBem vindo(a), %s\n", current_user);
             first_login = 0;
         }
 
-        printf("\n-------------------------\n  [ 1 ] Novo post\n  [ 2 ] Trending Topics\n  [ 3 ] Timeline\n  [ 4 ] Sair\n-------------------------\n\n");
-        user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
-        user_choice = atoi(choice_buffer);
-        switch (user_choice){
-        case 1:
-            post_up(current_user);
-            break;
-        case 2:
-            show_trending_topics(INITIAL_TRENDING_TOPICS_CAPACITY);
-            break;
-        case 3:
-            show_timeline(TIMELINE_LENGTH);
-            break;
-        case 4:
-            return 1;
-            break;
-        default:
+            printf("\n-------------------------\n  [ 1 ] Novo post\n  [ 2 ] Trending Topics\n  [ 3 ] Timeline\n  [ 4 ] logout\n-------------------------\n\n");
+            user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
+            user_choice = atoi(choice_buffer);
+            switch (user_choice)
+            {
+            case 1:
+                post_up(current_user);
+                break;
+            case 2:
+                show_trending_topics(INITIAL_TRENDING_TOPICS_CAPACITY);
+                break;
+            case 3:
+                show_timeline(TIMELINE_LENGTH);
+                break;
+            case 4:
+                log_out(current_user);
+                current_user = NULL;
+                first_login = 1;
+                break;
+            default:
 
-            break;
+                break;
+            }
         }
     }
     return 0;
-
-} 
+}
