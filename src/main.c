@@ -54,11 +54,11 @@ int main() {
         }
     while (current_user != NULL) {
         if (first_login == 1) {
-            printf("\nBem vindo(a), %s\n", current_user->username);
+            printf("\nBem vindo(a), %s\n\n", current_user->username);
             first_login = 0;
         }
 
-            printf("\n-------------------------\n  [ 1 ] Novo post\n  [ 2 ] Trending Topics\n  [ 3 ] Timeline\n  [ 4 ] logout\n-------------------------\n\n");
+            printf("-------------------------\n  [ 1 ] Novo post\n  [ 2 ] Trending Topics\n  [ 3 ] Timeline\n  [ 4 ] logout\n-------------------------\n\n");
             user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
             if (validate_int_input(choice_buffer, 1, 4) == 1) {
                 printf("\nEscolha inválida!\n\n");
@@ -82,7 +82,7 @@ int main() {
                 first_login = 1;
                 break;
             default:
-
+                printf("\nEscolha inválida!\n\n");
                 break;
             }
         }
