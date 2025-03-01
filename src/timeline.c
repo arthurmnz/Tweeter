@@ -6,13 +6,18 @@
 #include <time.h>
 #include "timeline.h"
 #include "post.h"
+#include "trending.h"
 
 int show_timeline(unsigned max_posts) {
     FILE *posts_ptr;
     char buffer[500];
     char *username, *time, *text;
     char formatted_time[6];
+    char topic[50];
     unsigned posts_counter;
+    unsigned topic_exist;
+    unsigned topic_found;
+    unsigned topic_start;
     long line_end;
     long pos;
 
@@ -63,7 +68,35 @@ int show_timeline(unsigned max_posts) {
 
                 strncpy(formatted_time, time, 5);
 
-                printf("@%s às %s - \"%s\"\n", username, formatted_time, text);
+                printf("@%s às %s - \"", username, formatted_time);
+
+                topic_found = 0;
+
+                for (unsigned i = 0; text[i] != '\0'; i++) {
+                    if (text[i] == '#') {
+                        topic[0] = '\0';
+                        topic_found = 1;
+                        topic_start = i + 1;
+
+                        if (is_hashtag_end(text[i + 1]) == 1) {
+                            printf("%c", text[i]);
+                        }
+                    } else if (topic_found == 1 && is_hashtag_end(text[i]) == 0 && i - topic_start + 1 < sizeof(topic)) {
+                        topic[i - topic_start] = text[i];
+                        topic[i - topic_start + 1] = '\0';
+
+                        if (topic_found == 1 && is_hashtag_end(text[i + 1]) == 1 && topic[0] != '\0') {
+                            printf("\033[34m");
+                            printf("#%s", topic);
+                            printf("\033[0m");
+                            topic_found = 0;
+                        }
+                    } else if (topic_found == 0) {
+                        printf("%c", text[i]);
+                    }
+                }
+
+                printf("\"\n");
 
                 posts_counter++;
 
