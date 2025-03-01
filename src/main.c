@@ -62,10 +62,10 @@ int main() {
             printf("-------------------------\n  [ 1 ] Novo post\n  [ 2 ] Trending Topics\n  [ 3 ] Timeline\n  [ 4 ] logout\n-------------------------\n\n");
             user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
             if (validate_int_input(choice_buffer, 1, 4) == 1) {
+            printf("\n");
                 printf("Escolha inválida!\n\n");
                 continue;
             }
-            printf("\n");
             user_choice = atoi(choice_buffer);
             switch (user_choice)
             {
