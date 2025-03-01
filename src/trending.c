@@ -211,5 +211,7 @@ int show_trending_topics(unsigned max_topics) {
         printf(" - %u\n", ttopics->topics[i].posts_count);
     }
 
+    printf("\n");
+
     return 0;
 }

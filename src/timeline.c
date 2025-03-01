@@ -78,6 +78,9 @@ int show_timeline(unsigned max_posts) {
         pos--;
     }
 
+    printf("\n");
+
     fclose(posts_ptr);
+    
     return 0;
 }
