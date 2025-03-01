@@ -48,13 +48,13 @@ void sing_up(){
     }
     
     do{  
-        user_input(buffer_username, MAX_TAM_USERNAME, "Digite username: ", 0);
+        user_input(buffer_username, MAX_TAM_USERNAME, "Digite o nome de usuário: ", 0);
 
         if (there_is_space(buffer_username))
-            printf("\nUsername não pode ter espaços!!\n\n");
+            printf("\nO nome de usuário não pode conter espaços!!\n\n");
 
         else if(username_in_use(buffer_username))
-            printf("\nUsername em uso!!\n\n");
+            printf("\nEste nome de usuário já está em uso!!\n\n");
 
     } while (there_is_space(buffer_username) || username_in_use(buffer_username));
     
@@ -62,7 +62,7 @@ void sing_up(){
         user_input(buffer_password, MAX_TAM_PASSWORD, "Digite a senha: ", 0);
 
         if(there_is_space(u->password))
-            printf("\nPassword não pode ter espaços!!\n\n");
+            printf("\nA senha não pode conter espaços!!\n\n");
             
     } while (there_is_space(u->password));
 
@@ -72,7 +72,7 @@ void sing_up(){
     add_user(u);
     free(u);
 
-    printf("\nUsuario cadastrado com sucesso!!\n\n");
+    printf("\nUsuário cadastrado com sucesso!!\n\n");
 }
 
 user* sing_in(){   
@@ -88,9 +88,9 @@ user* sing_in(){
         return NULL;
     }    
 
-    user_input(buffer_name, MAX_TAM_USERNAME, "Digite seu username: ", 0);
+    user_input(buffer_name, MAX_TAM_USERNAME, "Usuário: ", 0);
     
-    user_input(buffer_password, MAX_TAM_PASSWORD, "Digite seu password: ", 0);
+    user_input(buffer_password, MAX_TAM_PASSWORD, "Senha: ", 0);
     
     
     char buffer[500];
@@ -108,7 +108,7 @@ user* sing_in(){
     fclose(user_read);
     free(u);
     
-    printf("Usuario ou senha nao encontrado!!\n");
+    printf("Usuario ou senha não encontrado!!\n");
     return NULL;
 }   
 
