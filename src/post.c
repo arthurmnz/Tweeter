@@ -128,7 +128,35 @@ int show_posts_in_topic(char *topic_name, unsigned max_posts) {
 
                 if (text != NULL && topic_exist == 1) {
                     strncpy(formatted_time, time, 5);
-                    printf("@%s às %s - \"%s\"\n", username, formatted_time, text);
+                    printf("@%s às %s - \"", username, formatted_time);
+
+                    topic_found = 0;
+
+                    for (unsigned i = 0; text[i] != '\0'; i++) {
+                        if (text[i] == '#') {
+                            topic[0] = '\0';
+                            topic_found = 1;
+                            topic_start = i + 1;
+
+                            if (is_hashtag_end(text[i + 1]) == 1) {
+                                printf("%c", text[i]);
+                            }
+                        } else if (topic_found == 1 && is_hashtag_end(text[i]) == 0 && i - topic_start + 1 < sizeof(topic)) {
+                            topic[i - topic_start] = text[i];
+                            topic[i - topic_start + 1] = '\0';
+
+                            if (topic_found == 1 && is_hashtag_end(text[i + 1]) == 1 && topic[0] != '\0') {
+                                printf("\033[34m");
+                                printf("#%s", topic);
+                                printf("\033[0m");
+                                topic_found = 0;
+                            }
+                        } else if (topic_found == 0) {
+                            printf("%c", text[i]);
+                        }
+                    }
+
+                printf("\"\n");
                     posts_counter++;
                 }
 
