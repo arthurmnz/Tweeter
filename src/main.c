@@ -59,10 +59,10 @@ int main() {
             first_login = 0;
         }
 
-            printf("-------------------------\n  [ 1 ] Novo post\n  [ 2 ] Trending Topics\n  [ 3 ] Timeline\n  [ 4 ] logout\n-------------------------\n\n");
+            printf("-------------------------\n  [ 1 ] Novo post\n  [ 2 ] Trending Topics\n  [ 3 ] Timeline\n  [ 4 ] Buscar tópico\n  [ 5 ] Sair da conta\n-------------------------\n\n");
             user_input(choice_buffer, sizeof(choice_buffer), "Opção: ", 0);
-            if (validate_int_input(choice_buffer, 1, 4) == 1) {
             printf("\n");
+            if (validate_int_input(choice_buffer, 1, 5) == 1) {
                 printf("Escolha inválida!\n\n");
                 continue;
             }
@@ -79,6 +79,9 @@ int main() {
                 show_timeline(TIMELINE_LENGTH);
                 break;
             case 4:
+                search_topic(POSTS_OF_TOPIC_LENGTH);
+                break;
+            case 5:
                 log_out(current_user);
                 current_user = NULL;
                 first_login = 1;
