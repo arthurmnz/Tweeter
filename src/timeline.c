@@ -15,7 +15,6 @@ int show_timeline(unsigned max_posts) {
     char formatted_time[6];
     char topic[50];
     unsigned posts_counter;
-    unsigned topic_exist;
     unsigned topic_found;
     unsigned topic_start;
     long line_end;
