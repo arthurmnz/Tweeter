@@ -108,7 +108,7 @@ user* sing_in(){
     fclose(user_read);
     free(u);
     
-    printf("Usuario ou senha não encontrado!!\n");
+    printf("As credenciais estão incorretas. Tente novamente.\n");
     return NULL;
 }   
 
