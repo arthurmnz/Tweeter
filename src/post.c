@@ -43,7 +43,7 @@ void post_up(user *current_user){
     fprintf(user_add, "%s|%s|%s\n", p->username, p->create_at, p->text);
     fclose(user_add);
 
-    printf("Post: %s\n\n", p->text);
+    printf("Post enviado com sucesso!\n\n");
 }
 
 int show_posts_in_topic(char *topic_name, unsigned max_posts) {
