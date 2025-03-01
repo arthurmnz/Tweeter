@@ -70,7 +70,7 @@ void user_input(char *input, int length, char *prompt, char break_line) {
 int validate_input(char *input) {
     char invalid_input = 0;
 
-    if (input[0] == '\0' || input[0] == ' ') {
+    if (input == NULL || input[0] == '\0' || input[0] == ' ') {
         return 1;
     }
 
