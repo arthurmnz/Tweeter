@@ -61,10 +61,10 @@ void sing_up(){
     do{
         user_input(buffer_password, MAX_TAM_PASSWORD, "Digite a senha: ", 0);
 
-        if(there_is_space(u->password))
+        if(there_is_space(buffer_password))
             printf("\nA senha não pode conter espaços!!\n\n");
             
-    } while (there_is_space(u->password));
+    } while (there_is_space(buffer_password));
 
     strcpy(u->username, buffer_username);
     strcpy(u->password, buffer_password);
